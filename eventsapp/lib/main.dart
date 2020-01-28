@@ -1,8 +1,19 @@
+import 'package:eventsapp/models/authentication/authorize.dart';
 import 'package:flutter/material.dart';
 import 'package:eventsapp/UI/Donforget/First_list.dart';
 //import 'package:eventsapp/models/global.dart';
+import 'UI/Donforget/LoginPage/Login_Page.dart';
+import 'package:provider/provider.dart';
 
-void main() =>  runApp(Myapp());
+void main() => runApp(
+      ChangeNotifierProvider<AuthService>(
+        child: MyApp(),
+        builder: (BuildContext context) {
+          return AuthService();
+        },
+      ),
+    );
+
 
 class Myapp extends StatelessWidget{
 
@@ -14,7 +25,21 @@ class Myapp extends StatelessWidget{
     title: 'No te Olvides',
       theme: ThemeData(primarySwatch: Colors.yellow),
       
-      home: MyHomePage(title: 'No te olvides'),
+      home: FutureBuilder(
+
+        future: Provider.of<AuthService>(context).getUser(),
+
+        builder: (context, AsyncSnapshot snapshot){
+          if (snapshot.connectionState == ConnectionState.done){
+            return snapshot.hasData ? MyHomePage() : LoginPage();
+          }
+          else
+          {
+            return Container(color: Colors.white);
+          }
+        },
+
+      )
     );
   
  }

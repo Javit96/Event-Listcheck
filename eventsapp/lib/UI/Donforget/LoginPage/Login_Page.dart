@@ -37,15 +37,15 @@ class _LoginPageState extends State<LoginPage> {
   {
       TextEditingController usernameController = new TextEditingController();
       TextEditingController passwordController = new TextEditingController();
-    return Container
-    (
+    
       gradient: LinearGradient
       (
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [Colors.green, Colors.greenAccent],
-      ),
-    );
+      );
+      
+    
   }
 
 }

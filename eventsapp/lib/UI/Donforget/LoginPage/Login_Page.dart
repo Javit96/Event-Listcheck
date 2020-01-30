@@ -1,56 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:eventsapp/bloc/blocs/user_bloc_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:eventsapp/models/classes/user.dart';
+
 
 class LoginPage extends StatefulWidget {
+  final VoidCallback login;
+  final bool newUser;
+
+  const LoginPage({Key key, this.login, this.newUser})
+      :super(key: key);
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
-  String _password;
-  String _email;
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Login Page Flutter Firebase"),
-      ),
-      body: Container(
-      padding: EdgeInsets.all(20.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-        children: <Widget>[
-        SizedBox(height: 20.0),
-        Text(
-          'Login Information',
-          style: TextStyle(fontSize: 20),
+  TextEditingController emailController = new TextEditingController();  
+  TextEditingController usernameController = new TextEditingController();
+  TextEditingController firstController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+
+  @override
+  Wigdet build(BuildContext context)
+  {
+    return Scaffold
+    (
+      body: Center(
+          child: widget.newUser ? getSignupPage() : getSigninPage(),
         ),
-        SizedBox(height: 20.0),
-        TextFormField(
-            onSaved: (value) => _email = value,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(labelText: "Email Address")),
-        SizedBox(height: 20.0),
-        TextFormField(
-            onSaved: (value) => _password = value,
-            obscureText: true,
-            decoration: InputDecoration(labelText: "Password")),
-        RaisedButton(
-          child: Text("LOGIN"), 
-          onPressed: () 
-          {
-            final form = _formKey.currentState;
-            form.save();
-            if (form.validate()) {
-                print("$_email $_password");
-                  }
-          }),
-      ],
+      );
+    
+  }
+
+  Widget getSigninPage()
+  {
+      TextEditingController usernameController = new TextEditingController();
+      TextEditingController passwordController = new TextEditingController();
+    return Container
+    (
+      gradient: LinearGradient
+      (
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [Colors.green, Colors.greenAccent],
       ),
-      ),
-      
-    ),
     );
   }
+
 }
+
 

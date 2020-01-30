@@ -4,15 +4,10 @@ import 'package:eventsapp/UI/Donforget/First_list.dart';
 //import 'package:eventsapp/models/global.dart';
 import 'UI/Donforget/LoginPage/Login_Page.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-void main() => runApp(
-      ChangeNotifierProvider<AuthService>(
-        child: MyApp(),
-        builder: (BuildContext context) {
-          return AuthService();
-        },
-      ),
-    );
+void main() => runApp(Myapp());
 
 
 class Myapp extends StatelessWidget{
@@ -22,32 +17,18 @@ class Myapp extends StatelessWidget{
  {
   return MaterialApp
   (
+    debugShowCheckedModeBanner: false,
     title: 'No te Olvides',
-      theme: ThemeData(primarySwatch: Colors.yellow),
+      theme: ThemeData(primarySwatch: Colors.green),
       
-      home: FutureBuilder(
-
-        future: Provider.of<AuthService>(context).getUser(),
-
-        builder: (context, AsyncSnapshot snapshot){
-          if (snapshot.connectionState == ConnectionState.done){
-            return snapshot.hasData ? MyHomePage() : LoginPage();
-          }
-          else
-          {
-            return Container(color: Colors.white);
-          }
-        },
-
-      )
-    );
+      home: MyHomePage()
+  );
   
  }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
+  
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -57,8 +38,40 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context)
   {
-     return MaterialApp(
+     return FutureBuilder(
+       future: getApiKey(),
+       builder: (BuildContext context, AsyncSnapshot snapshot)
+       {
+         String apiKey = "";
+         if (snapshot.hasData)
+         {
+           apiKey = snapshot.data;
+         }
+         else
+         {
+           print("No Data");
+         }
+
+        return apiKey.length > 0 ? getHomePage() : LoginPage(login : login, newUser :false,);
+        },
+     );
+  }
+
+  void login()
+  {
+    setState(() {
+      build(context);
+    });
+  }
+
+  Future getApiKey() async
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.getString("Api_Token");//key
+  }
         
+  Widget getHomePage(){
+      return MaterialApp(
         home: SafeArea
         (
            child: new Scaffold
@@ -87,7 +100,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 (
                   height: 100,
                   width: 100,
-                  margin: EdgeInsets.only(top: 550, left:300),
+                  margin: EdgeInsets.only
+                  (
+                    top: 550, 
+                    left:MediaQuery.of(context).size.width * 0.5 - 40
+                  ),
                   child: FloatingActionButton
                   (
                     child: Icon(Icons.add, size: 35,),
@@ -119,17 +136,16 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Colors.green,
                           ),
                       ),
+                     ),
+                      ListTile
+                      (
+                          title: Text('Log Out'),
+                          leading: Icon(Icons.directions_walk),
+                          onTap: () 
+                              {
+                              },
                       ),
-                    ListTile
-                    (
-                      title: Text('Item 1'),
-                      onTap: () 
-                      {
-                           
-                      },
-                      
-                    ),
-                    ],
+                      ],
                   ),
               ),
               
@@ -139,5 +155,21 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
      );
     }
+
+  logout() async
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("Api_Token", "value");//key and value
+    setState(() {
+      build(context);
+    });
   }
+
+  @override
+  void initState()
+  {
+    super.initState();
+  }
+
+}
 

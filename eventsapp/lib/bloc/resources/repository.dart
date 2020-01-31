@@ -4,11 +4,11 @@ import 'package:eventsapp/models/classes/user.dart';
 
 class Repository
 {
-  final apiProvider = apiProvider();
+  final apiProvider = ApiProvider();
 
   Future<User> registerUser(String username, String firstname, String lastname, String email, String password)
   => apiProvider.registerUser(username, firstname, lastname, password, email);
 
   Future<User> singinUser(String username, String password)
-  => apiProvider.registerUser(username, password);
+  => apiProvider.signinUser(username, password);
 }

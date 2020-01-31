@@ -2,13 +2,11 @@ import 'package:eventsapp/bloc/resources/repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:eventsapp/models/classes/user.dart';
 
-class UserBloc
-{
+class UserBloc{
   final _repository = Repository();
   final _userGetter = PublishSubject<User>();
 
-  Observable<User> get getUser => _userGetter.stream;
-
+   Observable<User> get getUser => _userGetter.stream;
 
   registerUser(String username, String firstname, String lastname, String email, String password) async
   {

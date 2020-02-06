@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import 'bloc/blocs/user_bloc_provider.dart';
+
 void main() => runApp(Myapp());
 
 
@@ -36,6 +38,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String apiKey;
+
   @override
   Widget build(BuildContext context)
   {
@@ -43,10 +47,10 @@ class _MyHomePageState extends State<MyHomePage> {
        future: signinUser(),
        builder: (BuildContext context, AsyncSnapshot snapshot)
        {
-         String apiKey = "";
          if (snapshot.hasData)
          {
            apiKey = snapshot.data;
+           print(apiKey);
          }
          else
          {
@@ -68,10 +72,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Future signinUser() async
   {
     String userName = "";
-    String apiKey = await getApiKey();
+    apiKey = await getApiKey();
     if (apiKey.length > 0)
     {
-      bloc.singinUser("", "", apiKey);
+      UserBloc.singinUser("","", apiKey);
     }
     else
     {
@@ -108,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                
                 Container
                   (
-                    child:  FirstList(),
+                    child:  FirstList(apiKey: apiKey,),
                   ),
 
                 Container

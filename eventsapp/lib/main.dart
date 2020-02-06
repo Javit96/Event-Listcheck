@@ -1,3 +1,4 @@
+import 'package:eventsapp/bloc/blocs/user_bloc_provider.dart';
 import 'package:eventsapp/models/authentication/authorize.dart';
 import 'package:flutter/material.dart';
 import 'package:eventsapp/UI/Donforget/First_list.dart';
@@ -39,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context)
   {
      return FutureBuilder(
-       future: getApiKey(),
+       future: signinUser(),
        builder: (BuildContext context, AsyncSnapshot snapshot)
        {
          String apiKey = "";
@@ -62,6 +63,20 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       build(context);
     });
+  }
+
+  Future signinUser() async
+  {
+    String userName = "";
+    String apiKey = await getApiKey();
+    if (apiKey.length > 0)
+    {
+      bloc.singinUser("", "", apiKey);
+    }
+    else
+    {
+      print("No apikey");
+    }
   }
 
   Future getApiKey() async

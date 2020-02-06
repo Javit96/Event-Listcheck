@@ -9,6 +9,6 @@ class Repository
   Future<User> registerUser(String username, String firstname, String lastname, String email, String password)
   => apiProvider.registerUser(username, firstname, lastname, password, email);
 
-  Future<User> singinUser(String username, String password)
-  => apiProvider.signinUser(username, password);
+  Future<User> singinUser(String username, String password, String apiKey)
+  => apiProvider.signinUser(username, password, apiKey);
 }

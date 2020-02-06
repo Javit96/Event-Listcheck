@@ -13,9 +13,9 @@ class UserBloc{
     User user = await _repository.registerUser(username, firstname, lastname, email, password);
     _userGetter.sink.add(user);
   }
-  singinUser(String username, String password) async
+  singinUser(String username, String password, String apiKey) async
   {
-    User user = await _repository.singinUser(username, password);
+    User user = await _repository.singinUser(username, password, apiKey);
     _userGetter.sink.add(user);
   }
 

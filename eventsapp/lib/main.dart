@@ -1,5 +1,7 @@
 import 'package:eventsapp/bloc/blocs/user_bloc_provider.dart';
 import 'package:eventsapp/models/authentication/authorize.dart';
+import 'package:eventsapp/models/widgets/EventsList_widget.dart';
+import 'package:eventsapp/bloc/resources/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:eventsapp/UI/Donforget/First_list.dart';
 //import 'package:eventsapp/models/global.dart';
@@ -7,7 +9,6 @@ import 'UI/Donforget/LoginPage/Login_Page.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-
 import 'bloc/blocs/user_bloc_provider.dart';
 
 void main() => runApp(Myapp());
@@ -21,8 +22,11 @@ class Myapp extends StatelessWidget{
   return MaterialApp
   (
     debugShowCheckedModeBanner: false,
-    title: 'No te Olvides',
-      theme: ThemeData(primarySwatch: Colors.green),
+    title: 'Don´t Forget me',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        dialogBackgroundColor: Colors.transparent
+        ),
       
       home: MyHomePage()
   );
@@ -38,7 +42,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String apiKey;
+  TaskBloc taskBloc;
+  String apiKey = "";
+  Repository _repository = Repository();
 
   @override
   Widget build(BuildContext context)
@@ -50,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
          if (snapshot.hasData)
          {
            apiKey = snapshot.data;
+           taskBloc = TaskBloc(apiKey);
            print(apiKey);
          }
          else
@@ -73,14 +80,22 @@ class _MyHomePageState extends State<MyHomePage> {
   {
     String userName = "";
     apiKey = await getApiKey();
-    if (apiKey.length > 0)
+    if (apiKey != null)
     {
-      UserBloc.singinUser("","", apiKey);
+      if (apiKey.length > 0)
+        {
+          userBloc.singinUser("","", apiKey);
+        }
+      else
+        {
+          print("No apikey");
+        }
     }
-    else
+    else 
     {
-      print("No apikey");
+      apiKey ="";
     }
+    return apiKey;
   }
 
   Future getApiKey() async
@@ -97,7 +112,8 @@ class _MyHomePageState extends State<MyHomePage> {
             (
               body: Stack(
                 children: <Widget>[ 
-              Container(
+                  FirstList(apiKey: apiKey,),
+               Container(
                   padding: EdgeInsets.only(left: 50),
                   height: 250,
                   
@@ -128,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   (
                     child: Icon(Icons.add, size: 35,),
                     backgroundColor: Colors.green,
-                    onPressed: (){},
+                    onPressed: _showAddDialog,
                   ),
                 )
                 
@@ -175,10 +191,107 @@ class _MyHomePageState extends State<MyHomePage> {
      );
     }
 
+  
+
+  void _showAddDialog()
+  {
+    TextEditingController taskName = new TextEditingController();
+    TextEditingController deadline = new TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context)
+      {
+        return AlertDialog(
+          content: Container(
+            padding: EdgeInsets.all(20),
+            constraints : BoxConstraints.expand(height: 250,),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(13)),
+            ),
+
+          child: Column(
+            mainAxisAligment: MainAxisAligment.spaceBetween,
+            crossAxisAligment: CrossAxisAligment.center,
+            children: <Widget>
+            [
+              Text("Add New Task"),
+              Container
+              (
+                child: TextField
+                (
+                  controller: taskName,
+                  decoration: InputDecoration
+                  (
+                    hintText: "Name of task",
+                    enabledBorder: UnderlineInputBorder
+                    (
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+              Container
+              (
+                child: TextField
+                (
+                  controller: deadline,
+                  decoration: InputDecoration
+                  (
+                    enabledBorder: UnderlineInputBorder
+                    (
+                      borderSide: BorderSide(color: Colors.white)
+                    ),
+                  ),
+                ),
+              ),
+              Row
+              (
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>
+                [
+                  RaisedButton
+                  (
+                    color: Colors.red,
+                    child: Text("Cancel",),
+                    onPressed: ()
+                    {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  RaisedButton
+                  (
+                    color: Colors.red,
+                    child: Text("Add",),
+                    onPressed: ()
+                    {
+                      if (taskName.text != null)
+                      {
+                        addTask(taskName.text, deadline.text);
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+    },
+  );
+ }
+  void addTask(String taskName, String deadline) async
+  {
+    print(apiKey);
+    await _repository.addUserTask(this.apiKey, taskName, deadline);
+  }
+
   logout() async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("Api_Token", "value");//key and value
+    await prefs.setString("Api_Token", "");//key and value
     setState(() {
       build(context);
     });
@@ -189,6 +302,6 @@ class _MyHomePageState extends State<MyHomePage> {
   {
     super.initState();
   }
-
+  
 }
 

@@ -47,6 +47,7 @@ class Task(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    title = db.Column(db.String())
     note = db.Column(db.String())
     completed = db.Column(db.Boolean(), default= False, nullable = False)
     repeats = db.Column(db.String())
@@ -54,7 +55,8 @@ class Task(db.Model):
     reminders = db.Column(db.String())
 
 
-    def __init__(self, user_id, deadline, remainders, completed, note, repeats):
+    def __init__(self, title, user_id, deadline, remainders, completed, note, repeats):
+        self.title = title
         self.user_id = user_id
         self.deadline = deadline
         self.reminders = remainders
@@ -68,6 +70,7 @@ class Task(db.Model):
     def serialize(self):
         return 
         {
+            'title' : self.title,
             'user_ id' : self.user_id,
             'id' : self.id,
             'repeats' : self.repeats,

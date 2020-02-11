@@ -18,16 +18,16 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = new TextEditingController();  
   TextEditingController usernameController = new TextEditingController();
-  TextEditingController firstController = new TextEditingController();
+  TextEditingController firstNameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
   @override
   Widget build(BuildContext context)
   {
-    return Scaffold
-    (
-      body: Container(
-        decoration: BoxDecoration(
+    return Scaffold(
+
+      child: Container(
+         decoration: BoxDecoration(
         gradient: LinearGradient
       (
         begin: Alignment.topCenter,
@@ -38,18 +38,18 @@ class _LoginPageState extends State<LoginPage> {
       ),
 
           child: widget.newUser ? getSignupPage() : getSigninPage(),
-        ),
+      ),  
       );
     
   }
 
   Widget getSigninPage()
   {
-      TextEditingController usernameText = new TextEditingController();
+    TextEditingController usernameText = new TextEditingController();
     TextEditingController passwordText = new TextEditingController();
     
       
-     return Container(
+    return Container(
       
       margin: EdgeInsets.only(top: 100, left: 20, right: 20, bottom: 100),
       child: Column(
@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text("Sign in",),
                   onPressed: () {
                     if (usernameText.text != null || passwordText.text != null) {
-                      bloc.singinUser(usernameText.text, passwordText.text, "").then((_) {
+                      userBloc.singinUser(usernameText.text, passwordText.text, "").then((_)){
                         widget.login();
                       });
                     }
@@ -139,9 +139,9 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
-  }
+}
       
-      Widget getSignupPage() {
+Widget getSignupPage() {
     return Container(
       margin: EdgeInsets.all(20),
       child: Column(
@@ -169,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
               if (usernameController.text != null ||
                   passwordController.text != null ||
                   emailController.text != null) {
-                bloc
+                userBloc
                     .registerUser(
                         usernameController.text,
                         firstController.text ?? "",

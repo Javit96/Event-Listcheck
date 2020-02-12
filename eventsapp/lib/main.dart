@@ -113,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
               body: Stack(
                 children: <Widget>[ 
                   FirstList(apiKey: apiKey,),
-               Container(
+               new Container(
                   padding: EdgeInsets.only(left: 50),
                   height: 250,
                   
@@ -126,11 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                  ),
                
-                Container
-                  (
-                    child:  FirstList(apiKey: apiKey,),
-                  ),
-
+                
                 Container
                 (
                   height: 100,
@@ -211,8 +207,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
           child: Column(
-            mainAxisAligment: MainAxisAligment.spaceBetween,
-            crossAxisAligment: CrossAxisAligment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>
             [
               Text("Add New Task"),
@@ -302,6 +298,6 @@ class _MyHomePageState extends State<MyHomePage> {
   {
     super.initState();
   }
-  
+
 }
 

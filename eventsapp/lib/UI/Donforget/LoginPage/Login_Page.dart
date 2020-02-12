@@ -24,21 +24,21 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context)
   {
-    return Scaffold(
-
-      child: Container(
-         decoration: BoxDecoration(
-        gradient: LinearGradient
-      (
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [Colors.green, Colors.greenAccent],
-      ),
-
-      ),
-
+    return Scaffold
+    (
+         body: Container(
+           decoration:  BoxDecoration
+           (
+              gradient: LinearGradient
+              (
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.green, Colors.greenAccent],
+              ),
+            ),
+             
           child: widget.newUser ? getSignupPage() : getSigninPage(),
-      ),  
+        ),
       );
     
   }
@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text("Sign in",),
                   onPressed: () {
                     if (usernameText.text != null || passwordText.text != null) {
-                      userBloc.singinUser(usernameText.text, passwordText.text, "").then((_)){
+                      userBloc.singinUser(usernameText.text, passwordText.text, "").then((_){
                         widget.login();
                       });
                     }
@@ -134,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 )
               ],
-            ),
+            ), 
           )
         ],
       ),
@@ -155,7 +155,7 @@ Widget getSignupPage() {
             decoration: InputDecoration(hintText: "Username"),
           ),
           TextField(
-            controller: firstController,
+            controller: firstNameController,
             decoration: InputDecoration(hintText: "First name"),
           ),
           TextField(
@@ -172,7 +172,7 @@ Widget getSignupPage() {
                 userBloc
                     .registerUser(
                         usernameController.text,
-                        firstController.text ?? "",
+                        firstNameController.text ?? "",
                         "",
                         passwordController.text,
                         emailController.text)

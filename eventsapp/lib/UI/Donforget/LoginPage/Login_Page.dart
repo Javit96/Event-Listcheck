@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                 FlatButton(
                   child: Text("create one"),
                   onPressed: () {
-
+                      getSignupPage();
                   },
                 )
               ],

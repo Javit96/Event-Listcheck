@@ -13,7 +13,7 @@ class ApiProvider
   Future<User> registerUser(String username, String firstname, String lastname, String email, String password) async
   {
     final response = await client
-    .post("http://127.0.0.1:500/api/register",
+    .post("http://10.0.2.1:5000/api/register",
     
     body: jsonEncode(
       {
@@ -42,8 +42,7 @@ class ApiProvider
 
   Future signinUser(String username, String password, String apiKey)async
   {
-    final response = await client
-    .post("http://127.0.0.1:5000/api/singin",
+    final response = await client.post("http://10.0.2.1:5000/api/singin",
     headers:
      {
       "Authorization" : apiKey
@@ -73,7 +72,7 @@ class ApiProvider
 
   Future<List<Task>> getUserTasks(String apiKey) async{
     final response = await client
-    .get("http://127.0.0.1:5000/api/tasks",
+    .get("http://10.0.2.1:5000/api/tasks",
     headers: {
       "Authorization" : apiKey
     },
@@ -107,7 +106,7 @@ class ApiProvider
   Future addUserTask(String apiKey, String taskName, String deadline) async
   {
     final response = await client
-    .post("http://127.0.0.1:5000/api/task",
+    .post("http://10.0.2.1:5000/api/task",
     headers: {
       "Authorization" : apiKey
     },

@@ -28,6 +28,7 @@ class Signin(Resource):
     def username_and_password_signin(self, json_data):
 
         if not json_data:
+            print("NO data")
             return {"Message": 'No input data provided'}, 400
         
         user = User.query.filter_by(username = json_data['username']).first()

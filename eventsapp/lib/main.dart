@@ -21,6 +21,7 @@ class Myapp extends StatelessWidget{
  {
   return MaterialApp
   (
+    
     debugShowCheckedModeBanner: false,
     title: 'Don´t Forget me',
       theme: ThemeData(
@@ -71,6 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void login()
   {
+    print("entre");
     setState(() {
       build(context);
     });
@@ -101,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future getApiKey() async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.getString("Api_Token");//key
+    return await prefs.getString("API_Token");//key
   }
         
   Widget getHomePage(){

@@ -23,6 +23,8 @@ class Signin(Resource):
             else:
                 result = self.username_and_password_signin(json_data)
 
+        print(result)
+
         return{"status": 'success', 'data': result},201
 
     def username_and_password_signin(self, json_data):

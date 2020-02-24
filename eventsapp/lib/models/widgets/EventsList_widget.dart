@@ -24,7 +24,7 @@ class EventsList extends StatelessWidget{
       ),
       child: Row(
         children: <Widget>[
-          Radio(
+          Container(
 
           ),
           Column(

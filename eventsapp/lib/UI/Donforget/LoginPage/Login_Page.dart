@@ -16,6 +16,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  
+
   TextEditingController emailController = new TextEditingController();  
   TextEditingController usernameController = new TextEditingController();
   TextEditingController firstNameController = new TextEditingController();
@@ -91,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: TextField(
                     controller: passwordText,
                     autofocus: false,
+                    
                     style: TextStyle(fontSize: 22.0),
                     decoration: InputDecoration(
                       filled: true,
@@ -115,6 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                     if (usernameText.text != null || passwordText.text != null) {
                       userBloc.singinUser(usernameText.text, passwordText.text, "").then((_){
                         widget.login();
+                        
                       });
                     }
                   },
@@ -129,9 +134,9 @@ class _LoginPageState extends State<LoginPage> {
                 Text("Don't you even have an account yet?!", textAlign: TextAlign.center,),
                 FlatButton(
                   child: Text("create one"),
-                  onPressed: () {
-                      getSignupPage();
-                  },
+                  onPressed: () => Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => getSignupPage()),
+                                  ),
                 )
               ],
             ), 
@@ -139,32 +144,34 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
-}
+  }
       
-Widget getSignupPage() {
+  Widget getSignupPage() {
     return Container(
-      margin: EdgeInsets.all(20),
+      
+      margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          TextField(
+          TextFormField(
             controller: emailController,
             decoration: InputDecoration(hintText: "Email"),
           ),
-          TextField(
+          TextFormField(
             controller: usernameController,
             decoration: InputDecoration(hintText: "Username"),
           ),
-          TextField(
+          TextFormField(
             controller: firstNameController,
             decoration: InputDecoration(hintText: "First name"),
           ),
-          TextField(
+          TextFormField(
             controller: passwordController,
             decoration: InputDecoration(hintText: "Password"),
           ),
           FlatButton(
             color: Colors.green,
-            child: Text("Sign up for gods sake"),
+            child: Text("Sign up"),
             onPressed: () {
               if (usernameController.text != null ||
                   passwordController.text != null ||

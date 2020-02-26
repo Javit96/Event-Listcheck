@@ -43,9 +43,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  
   TaskBloc taskBloc;
   String apiKey = "";
   Repository _repository = Repository();
+  bool signUpB;
 
   @override
   Widget build(BuildContext context)
@@ -63,20 +65,30 @@ class _MyHomePageState extends State<MyHomePage> {
          else
          {
            print("No Data");
+           return signUpB ? LoginPage(login : login, newUser :true, signUpButton: signUpButton) : LoginPage(newUser :false, signUpButton: signUpButton) ;
          }
-
         return apiKey.length > 0 ? getHomePage() : LoginPage(login : login, newUser :false,);
+        
         },
      );
   }
 
   void login()
   {
-    print("entre");
+    
     setState(() {
       build(context);
     });
   }
+  
+  void signUpButton()
+  {
+    signUpB = true;
+    setState(() {
+      build(context);
+    });
+  }
+ 
 
   Future signinUser() async
   {
@@ -136,11 +148,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   margin: EdgeInsets.only
                   (
                     top: 550, 
-                    left:MediaQuery.of(context).size.width * 0.5 - 40
+                    left:MediaQuery.of(context).size.width * 0.7
                   ),
                   child: FloatingActionButton
                   (
-                    child: Icon(Icons.add, size: 35,),
+                    child: Icon(Icons.add, size: 20,),
                     backgroundColor: Colors.green,
                     onPressed: _showAddDialog,
                   ),
@@ -176,6 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           leading: Icon(Icons.directions_walk),
                           onTap: () 
                               {
+                                logout();
                               },
                       ),
                       ],
@@ -285,11 +298,12 @@ class _MyHomePageState extends State<MyHomePage> {
     print(apiKey);
     await _repository.addUserTask(this.apiKey, taskName, deadline);
   }
+ 
 
   logout() async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("Api_Token", "");//key and value
+    await prefs.setString("API_Token", "");//key and value
     setState(() {
       build(context);
     });

@@ -5,10 +5,11 @@ import 'package:eventsapp/models/classes/user.dart';
 
 
 class LoginPage extends StatefulWidget {
+  final VoidCallback signUpButton;
   final VoidCallback login;
   final bool newUser;
 
-  const LoginPage({Key key, this.login, this.newUser})
+  const LoginPage({Key key, this.login, this.newUser, this.signUpButton})
       :super(key: key);
 
   @override
@@ -23,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController usernameController = new TextEditingController();
   TextEditingController firstNameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+
 
   @override
   Widget build(BuildContext context)
@@ -45,9 +47,9 @@ class _LoginPageState extends State<LoginPage> {
       );
     
   }
+ 
 
-  Widget getSigninPage()
-  {
+  Widget getSigninPage(){
     TextEditingController usernameText = new TextEditingController();
     TextEditingController passwordText = new TextEditingController();
     
@@ -67,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                 Theme(
                   data: Theme.of(context)
                       .copyWith(splashColor: Colors.transparent),
-                  child: TextField(
+                  child: TextFormField(
                     controller: usernameText,
                     autofocus: false,
                     style: TextStyle(fontSize: 22.0),
@@ -91,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                 Theme(
                   data: Theme.of(context)
                       .copyWith(splashColor: Colors.transparent),
-                  child: TextField(
+                  child: TextFormField(
                     controller: passwordText,
                     autofocus: false,
                     
@@ -119,7 +121,6 @@ class _LoginPageState extends State<LoginPage> {
                     if (usernameText.text != null || passwordText.text != null) {
                       userBloc.singinUser(usernameText.text, passwordText.text, "").then((_){
                         widget.login();
-                        
                       });
                     }
                   },
@@ -134,10 +135,11 @@ class _LoginPageState extends State<LoginPage> {
                 Text("Don't you even have an account yet?!", textAlign: TextAlign.center,),
                 FlatButton(
                   child: Text("create one"),
-                  onPressed: () => Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => getSignupPage()),
-                                  ),
-                )
+                  onPressed: () {
+                    widget.signUpButton();
+                   
+                  },
+                ),
               ],
             ), 
           )
@@ -146,38 +148,37 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
       
-  Widget getSignupPage() {
-    return Container(
-      
-      margin: EdgeInsets.symmetric(vertical: 10),
+  Widget getSignupPage(){
+   return Scaffold(
+    body: Container(
+      height: 250,
+      margin: EdgeInsets.all(15),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          TextFormField(
+          TextField(
             controller: emailController,
             decoration: InputDecoration(hintText: "Email"),
           ),
-          TextFormField(
+          TextField(
             controller: usernameController,
             decoration: InputDecoration(hintText: "Username"),
           ),
-          TextFormField(
+          TextField(
             controller: firstNameController,
             decoration: InputDecoration(hintText: "First name"),
           ),
-          TextFormField(
+          TextField(
             controller: passwordController,
             decoration: InputDecoration(hintText: "Password"),
           ),
           FlatButton(
             color: Colors.green,
-            child: Text("Sign up"),
+            child: Text("Sign up for gods sake"),
             onPressed: () {
               if (usernameController.text != null ||
                   passwordController.text != null ||
                   emailController.text != null) {
-                userBloc
-                    .registerUser(
+                userBloc.registerUser(
                         usernameController.text,
                         firstNameController.text ?? "",
                         "",
@@ -186,15 +187,12 @@ class _LoginPageState extends State<LoginPage> {
                     .then((_) {
                   widget.login();
                 });
-              }
-            },
-          )
-        ],
+               }
+             },
+           )
+         ],
       ),
-    );
+    ),
+   );
   }
 }
-  
-
-
-

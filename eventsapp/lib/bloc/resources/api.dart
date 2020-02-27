@@ -21,8 +21,8 @@ class ApiProvider
         "emailadress" : email,
 	      "username" : username,
 	      "password" : password,
-	      "firstname" : firstname,
-	      "lastname" : lastname
+	      "first_name" : firstname,
+	      "last_name" : lastname
 
       }
     )

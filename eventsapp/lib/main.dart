@@ -56,6 +56,10 @@ class _MyHomePageState extends State<MyHomePage> {
        future: signinUser(),
        builder: (BuildContext context, AsyncSnapshot snapshot)
        {
+         if (signUpB = true)
+         {
+           LoginPage(newUser :true, signUpButton: signUpButton,);
+         }
          if (snapshot.hasData)
          {
            apiKey = snapshot.data;
@@ -65,7 +69,6 @@ class _MyHomePageState extends State<MyHomePage> {
          else
          {
            print("No Data");
-           return signUpB ? LoginPage(login : login, newUser :true, signUpButton: signUpButton) : LoginPage(newUser :false, signUpButton: signUpButton) ;
          }
         return apiKey.length > 0 ? getHomePage() : LoginPage(login : login, newUser :false,);
         

@@ -56,10 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
        future: signinUser(),
        builder: (BuildContext context, AsyncSnapshot snapshot)
        {
-         if (signUpB = true)
-         {
-           LoginPage(newUser :true, signUpButton: signUpButton,);
-         }
          if (snapshot.hasData)
          {
            apiKey = snapshot.data;
@@ -84,13 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
   
-  void signUpButton()
-  {
-    signUpB = true;
-    setState(() {
-      build(context);
-    });
-  }
+  
  
 
   Future signinUser() async

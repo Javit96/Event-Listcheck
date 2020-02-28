@@ -1,6 +1,6 @@
 from flask_restful import Resource
 from flask import request
-from Model import db, User
+from Backend.Model import db, User
 import random
 import string
 
@@ -8,8 +8,8 @@ class Register(Resource):
     def get(self):
         user = User.query.all()
         user_list = []
-        for i in range(0, len(users)):
-            user_list.append(users[i].serialize())
+        for i in range(0, len(user)):
+            user_list.append(user[i].serialize())
         return {"status": str(user_list)}, 200
 
     def post(self):

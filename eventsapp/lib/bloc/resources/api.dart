@@ -103,13 +103,14 @@ class ApiProvider
   Future addUserTask(String apiKey, String taskName, String deadline) async
   {
     final response = await client
-    .post("http://10.0.2.2:5000/api/task",
+    .post("http://10.0.2.2:5000/api/tasks",
     headers: {
       "Authorization" : apiKey
     },
     body: jsonEncode({
       "note" : "",
       "completed" : false,
+      "repeats" : "",
       "deadline" : deadline,
       "reminders" : "",
       "title" : taskName

@@ -1,6 +1,6 @@
 from flask_restful import Resource
 from flask import request
-from Backend.Model import db, User, Task
+from model import db, User, Task
 import random
 import string
 
@@ -17,6 +17,8 @@ class Tasks(Resource):
             if user:
                 task = Task(
                     user_id = user.id,
+                    
+                    title = json_data['title'],
                     note = json_data['note'],
                     completed = json_data['completed'],
                     repeats = json_data['repeats'],

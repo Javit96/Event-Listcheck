@@ -4,11 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:eventsapp/models/classes/user.dart';
 
 class LoginPage extends StatefulWidget {
-  final VoidCallback signUpButton;
   final VoidCallback login;
   final bool newUser;
 
-  const LoginPage({Key key, this.login, this.newUser, this.signUpButton})
+  const LoginPage({Key key, this.login, this.newUser})
       : super(key: key);
 
   @override

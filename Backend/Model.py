@@ -55,11 +55,11 @@ class Task(db.Model):
     reminders = db.Column(db.String())
 
 
-    def __init__(self, title, user_id, deadline, remainders, completed, note, repeats):
+    def __init__(self, title, user_id, deadline, reminders, completed, note, repeats):
         self.title = title
         self.user_id = user_id
         self.deadline = deadline
-        self.reminders = remainders
+        self.reminders = reminders
         self.completed = completed
         self.note = note
         self.repeats = repeats

@@ -47,8 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   TaskBloc taskBloc;
   String apiKey = "";
   Repository _repository = Repository();
-  bool signUpB;
-
+  
   @override
   Widget build(BuildContext context)
   {
@@ -201,6 +200,10 @@ class _MyHomePageState extends State<MyHomePage> {
   {
     TextEditingController taskName = new TextEditingController();
     TextEditingController deadline = new TextEditingController();
+    TextEditingController note = new TextEditingController();
+    
+    bool completed;
+    
 
     showDialog(
       context: context,

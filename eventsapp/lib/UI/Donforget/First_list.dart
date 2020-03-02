@@ -31,6 +31,7 @@ class _FirstListState extends State<FirstList>
   @override
   Widget build(BuildContext context)
   {
+    print(taskList);
     return Container
     (
       color: Colors.white,
@@ -53,7 +54,9 @@ class _FirstListState extends State<FirstList>
           }
           else if (snapshot.hasError)
           {
-            return Container();
+            return Container(
+              child: Text("Error talk with the support"),
+              );
           }
           return CircularProgressIndicator();
         },

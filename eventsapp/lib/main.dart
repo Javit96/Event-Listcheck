@@ -60,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
            apiKey = snapshot.data;
            taskBloc = TaskBloc(apiKey);
            print(apiKey);
+
          }
          else
          {
@@ -94,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       else
         {
-          print("No apikey");
+          print("No apiKey");
         }
     }
     else 
@@ -209,83 +210,86 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (BuildContext context)
       {
-        return AlertDialog(
-          content: Container(
-            padding: EdgeInsets.all(20),
-            constraints : BoxConstraints.expand(height: 250,),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(13)),
-            ),
+        return Center(
+          child: Card(
+            child: Container(
+              padding: EdgeInsets.all(20),
+              constraints : BoxConstraints.expand(height: 250,),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(13)),
+              ),
 
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>
-            [
-              Text("Add New Task"),
-              Container
-              (
-                child: TextField
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>
+              [
+                Text("Add New Task"),
+                Container
                 (
-                  controller: taskName,
-                  decoration: InputDecoration
+                  child: TextField
                   (
-                    hintText: "Name of task",
-                    enabledBorder: UnderlineInputBorder
+                    controller: taskName,
+                    decoration: InputDecoration
                     (
-                      borderSide: BorderSide(color: Colors.white),
+                      hintText: "Name of task",
+                      enabledBorder: UnderlineInputBorder
+                      (
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Container
-              (
-                child: TextField
+                Container
                 (
-                  controller: deadline,
-                  decoration: InputDecoration
+                  child: TextField
                   (
-                    enabledBorder: UnderlineInputBorder
+                    controller: note,
+                    decoration: InputDecoration
                     (
-                      borderSide: BorderSide(color: Colors.white)
+                      hintText: "Description of the task",
+                      enabledBorder: UnderlineInputBorder
+                      (
+                        borderSide: BorderSide(color: Colors.white)
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Row
-              (
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>
-                [
-                  RaisedButton
-                  (
-                    color: Colors.red,
-                    child: Text("Cancel",),
-                    onPressed: ()
-                    {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  RaisedButton
-                  (
-                    color: Colors.red,
-                    child: Text("Add",),
-                    onPressed: ()
-                    {
-                      if (taskName.text != null)
+                Row
+                (
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>
+                  [
+                    RaisedButton
+                    (
+                      color: Colors.red,
+                      child: Text("Cancel",),
+                      onPressed: ()
                       {
-                        addTask(taskName.text, deadline.text);
                         Navigator.pop(context);
-                      }
-                    },
-                  ),
-                ],
-              )
-            ],
+                      },
+                    ),
+                    RaisedButton
+                    (
+                      color: Colors.red,
+                      child: Text("Add",),
+                      onPressed: ()
+                      {
+                        if (taskName.text != null)
+                        {
+                          addTask(taskName.text, note.text);
+                          Navigator.pop(context);
+                        }
+                      },
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
-        ),
-      );
+      ),
+        );
     },
   );
  }

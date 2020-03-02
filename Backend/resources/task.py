@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from flask import request
+from flask import request, jsonify
 from model import db, User, Task
 import random
 import string
@@ -17,7 +17,6 @@ class Tasks(Resource):
             if user:
                 task = Task(
                     user_id = user.id,
-                    
                     title = json_data['title'],
                     note = json_data['note'],
                     completed = json_data['completed'],
@@ -45,7 +44,10 @@ class Tasks(Resource):
             user = User.query.filter_by(api_key = header).first()
             if user: 
                 tasks = Task.query.filter_by(user_id = user.id).all()
+                
                 for task in tasks:
-                    result.append(Task.serialize(task))
+                    toAppend = Task.serialize(task)
+                    result.append(toAppend)
+            
 
-        return {"status": 'success', 'data': result},201
+        return {"status": 'success', "data": result},201

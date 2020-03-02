@@ -68,14 +68,13 @@ class Task(db.Model):
         return '<id {}>'.format(self.id)
     
     def serialize(self):
-        return 
-        {
+        return {
             'title' : self.title,
             'user_ id' : self.user_id,
             'id' : self.id,
             'repeats' : self.repeats,
             'deadline' : self.deadline,
-            'reminders' : self.remainders,
+            'reminders' : self.reminders,
             'completed' : self.completed,
-            'note' : self.note,
+            'note' : self.note
         }

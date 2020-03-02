@@ -75,11 +75,12 @@ class ApiProvider
     },
     );
     final Map result = json.decode(response.body);
+    
     if (response.statusCode == 201){
       List<Task> tasks = [];
-      for (Map json_ in result["data"]) {
+      for (Map parsedJson in result["data"]) {
         try {
-          tasks.add(Task.fromJson(json_));
+          tasks.add(Task.fromJson(parsedJson));
         }
         catch(Exception) {
           print(Exception);

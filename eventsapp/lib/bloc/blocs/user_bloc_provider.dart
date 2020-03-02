@@ -35,10 +35,10 @@ class TaskBloc {
 
   
 
-  TaskBloc(String api_key)
+  TaskBloc(String apiKey)
   {
-    this.apiKey= api_key;
-    _updateTasks(api_key).then((_){
+    this.apiKey= apiKey;
+    _updateTasks(apiKey).then((_){
       _taskSubject.add(_tasks);
     });
   }

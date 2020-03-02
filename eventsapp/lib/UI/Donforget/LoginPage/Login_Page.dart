@@ -21,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController lastnameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -184,8 +185,10 @@ class _LoginPageState extends State<LoginPage> {
                           lastnameController.text ?? "",
                           emailController.text,
                           passwordController.text)
-                      .then((_) {
-                    widget.login();
+                      .then((_) { Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => getSigninPage()),
+                    );
                   });
                 }
               },

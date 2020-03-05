@@ -31,7 +31,7 @@ class _FirstListState extends State<FirstList>
   @override
   Widget build(BuildContext context)
   {
-    print(taskList);
+    
     return Container
     (
       color: Colors.white,
@@ -39,8 +39,7 @@ class _FirstListState extends State<FirstList>
       (
         stream: tasksBloc.getTasks,
         initialData: [],
-        builder: (context, snapshot)
-        {
+        builder: (context, snapshot){
           if (snapshot.hasData && snapshot != null)
           {
             if (snapshot.data.length > 0)
@@ -49,6 +48,7 @@ class _FirstListState extends State<FirstList>
             }
             else if (snapshot.data.length == 0)
             {
+              
               return Center(child: Text('No Data'));
             }
           }
@@ -78,10 +78,9 @@ class _FirstListState extends State<FirstList>
 
   Widget _buildListSimple(BuildContext context, List<Task> taskList)
   {
-    return Theme
-    (
-      data: ThemeData
-      (
+  
+    return Theme(
+      data: ThemeData(
         canvasColor: Colors.transparent,
       ),
       child: ListView

@@ -136,8 +136,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 
                 Container
                 (
-                  height: 100,
-                  width: 100,
+                  height: 70,
+                  width: 70,
                   margin: EdgeInsets.only
                   (
                     top: 550, 
@@ -145,8 +145,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   child: FloatingActionButton
                   (
-                    child: Icon(Icons.add, size: 20,),
-                    backgroundColor: Colors.green,
+                    child: Icon(Icons.add, size: 35,),
+                    backgroundColor: Colors.blueAccent,
                     onPressed: _showAddDialog,
                   ),
                 )

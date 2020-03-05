@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:eventsapp/models/global.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class EventsList extends StatelessWidget{
   final String title;
@@ -11,6 +13,7 @@ class EventsList extends StatelessWidget{
     return Container(
       key: Key(keyValue),
       margin: EdgeInsets.only(bottom: 5),
+      padding: EdgeInsets.all(10),
       height: 100,
       decoration: BoxDecoration(
         color: Colors.green,
@@ -24,12 +27,15 @@ class EventsList extends StatelessWidget{
       ),
       child: Row(
         children: <Widget>[
-          Container(
+          Radio(
 
           ),
           Column(
             children: <Widget>[
-              Text(title)
+              AutoSizeText(
+               title, 
+               style: taskTitle,
+              ),
             ],
           )
         ],

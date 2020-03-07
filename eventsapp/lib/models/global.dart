@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-Color darkLight = new Color(0x312C2C);
+Color darkLight = new Color(0xFF312C2C);
 
 TextStyle taskTitle = new TextStyle
 (
   fontFamily: 'Acumin Pro',
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.normal,
   color: darkLight,
-  fontSize: 15,
+  fontSize: 30,
 
 );

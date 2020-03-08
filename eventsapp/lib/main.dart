@@ -1,5 +1,6 @@
 import 'package:eventsapp/bloc/blocs/user_bloc_provider.dart';
 import 'package:eventsapp/models/authentication/authorize.dart';
+import 'package:eventsapp/models/classes/user.dart';
 import 'package:eventsapp/models/widgets/EventsList_widget.dart';
 import 'package:eventsapp/bloc/resources/repository.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   
   TaskBloc taskBloc;
   String apiKey = "";
+  String username = "";
   Repository _repository = Repository();
   
   @override
@@ -60,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
            apiKey = snapshot.data;
            taskBloc = TaskBloc(apiKey);
            print(apiKey);
-
+           
          }
          else
          {
@@ -85,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future signinUser() async
   {
-    String userName = "";
+    
     apiKey = await getApiKey();
     if (apiKey != null)
     {
@@ -105,13 +107,32 @@ class _MyHomePageState extends State<MyHomePage> {
     return apiKey;
   }
 
+
   Future getApiKey() async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return await prefs.getString("API_Token");//key
+    String apitoken = await prefs.getString("API_Token");//key
+    
+    return apitoken;
   }
-        
+
+  Future getUserName() async
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String _userName = await prefs.getString("username");//key
+
+    return _userName;
+  }
+  
+  userName()async
+  {
+    username = await getUserName();
+    print(username);
+    return username;
+  }
+ 
   Widget getHomePage(){
+    
       return MaterialApp(
         home: SafeArea
         (
@@ -162,20 +183,24 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: EdgeInsets.zero,
                     children: <Widget>
                     [
-                     Container(
-                        height: 75,
+                      UserAccountsDrawerHeader(
                         
-                      child:  DrawerHeader
-                      (
-                        
-                        child: Text('No te Olvides'),
-                        decoration: BoxDecoration
-                          (
-                            color: Colors.green,
-                          ),
-                      ),
-                     ),
-                      ListTile
+                                accountName: Text(""),
+                                accountEmail: Text("ashishrawat2911@gmail.com"),
+                                currentAccountPicture: CircleAvatar(
+                                  backgroundColor:
+                                      Theme.of(context).platform == TargetPlatform.iOS
+                                          ? Colors.blue
+                                          : Colors.white,
+                                  child: Text(
+                                    "A",
+                                    style: TextStyle(fontSize: 40.0),
+                                  ),
+                                ),
+                              ),
+                     
+                      
+                       ListTile
                       (
                           title: Text('Log Out'),
                           leading: Icon(Icons.directions_walk),

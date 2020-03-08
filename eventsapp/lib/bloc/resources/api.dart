@@ -5,130 +5,103 @@ import 'package:eventsapp/models/classes/task.dart';
 import 'dart:convert';
 import 'package:eventsapp/models/classes/user.dart';
 
-class ApiProvider
-{
+class ApiProvider {
   Client client = Client();
   final _apikey = 'your_api_key';
 
-  Future<User> registerUser(String username, String firstname, String lastname, String email, String password) async
-  {
-    final response = await client
-    .post("http://10.0.2.2:5000/api/register",
-    
-    body: jsonEncode(
-      {
-
-        "emailadress" : email,
-	      "username" : username,
-	      "password" : password,
-	      "first_name" : firstname,
-	      "last_name" : lastname
-
-      }
-    )
-    );
-
-  final Map result = json.decode(response.body);
-  if (response.statusCode == 201)
-  {
-    await saveApiKey(result["data"]["api_key"]);
-    return User.fromJson(result["data"]);
-  }
-  else
-  {
-    throw Exception('Failed to load post');
-  }
-}
-
-  Future signinUser(String username, String password, String apiKey)async
-  {
-    final response = await client
-          .post("http://10.0.2.2:5000/api/singin",
-    headers:
-     {
-      "Authorization" : apiKey
-     },
-    body: jsonEncode({
-      "username" : username,
-      "password" : password,
-    }
-    )
-    );
+  Future<User> registerUser(String username, String firstname, String lastname,
+      String email, String password) async {
+    final response = await client.post("http://10.0.2.2:5000/api/register",
+        body: jsonEncode({
+          "emailadress": email,
+          "username": username,
+          "password": password,
+          "first_name": firstname,
+          "last_name": lastname
+        }));
 
     final Map result = json.decode(response.body);
-    if(response.statusCode == 201)
-    {
+    if (response.statusCode == 201) {
       await saveApiKey(result["data"]["api_key"]);
-    }
-    else
-    {
+      return User.fromJson(result["data"]);
+    } else {
       throw Exception('Failed to load post');
     }
   }
 
-  
+  Future signinUser(String username, String password, String apiKey) async {
+    final response = await client.post("http://10.0.2.2:5000/api/singin",
+        headers: {"Authorization": apiKey},
+        body: jsonEncode({
+          "username": username,
+          "password": password,
+        }));
 
-  Future<List<Task>> getUserTasks(String apiKey) async{
-    final response = await client.get("http://10.0.2.2:5000/api/tasks",
-    headers: {
-      "Authorization" : apiKey
-    },
+    final Map result = json.decode(response.body);
+    if (response.statusCode == 201) {
+      await saveApiKey(result["data"]["api_key"]);
+      await saveUserName(result["data"]["username"]);
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  Future<List<Task>> getUserTasks(String apiKey) async {
+    final response = await client.get(
+      "http://10.0.2.2:5000/api/tasks",
+      headers: {"Authorization": apiKey},
     );
     final Map result = json.decode(response.body);
-    
-    if (response.statusCode == 201){
+
+    if (response.statusCode == 201) {
       List<Task> taskList = [];
       for (Map parsedJson in result["data"]) {
         try {
           taskList.add(Task.fromJson(parsedJson));
-        }
-        catch(Exception) {
+        } catch (Exception) {
           print(Exception);
         }
       }
 
-   /*  for (Task task in taskList)
+      /*  for (Task task in taskList)
     {
       print(task.taskId);
     } */
 
       return taskList;
-    } 
-    else
-    {
+    } else {
       throw Exception('Failed to Load tasks');
     }
-
   }
 
-  Future addUserTask(String apiKey, String taskName, String deadline) async
-  {
-    final response = await client
-    .post("http://10.0.2.2:5000/api/tasks",
-    headers: {
-      "Authorization" : apiKey
-    },
-    body: jsonEncode({
-      "note" : "",
-      "completed" : false,
-      "repeats" : "",
-      "deadline" : deadline,
-      "reminders" : "",
-      "title" : taskName
-    })
-    );
-    if (response.statusCode == 201)
-    {
+  Future addUserTask(String apiKey, String taskName, String deadline) async {
+    final response = await client.post("http://10.0.2.2:5000/api/tasks",
+        headers: {"Authorization": apiKey},
+        body: jsonEncode({
+          "note": "",
+          "completed": false,
+          "repeats": "",
+          "deadline": deadline,
+          "reminders": "",
+          "title": taskName
+        }));
+    if (response.statusCode == 201) {
       print("Task added");
-    }
-    else
-    {
+    } else {
       print(json.decode(response.body));
       throw Exception("Failed to load tasks");
     }
   }
-  saveApiKey(String api_key)async{
+
+  saveApiKey(String apikey) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('API_Token', api_key);
-   }
+    await prefs.setString('API_Token', apikey);
+   
+  }
+
+  saveUserName(String username) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('Username', username);
+    
+  }
 }

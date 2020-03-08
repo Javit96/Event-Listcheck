@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:eventsapp/models/global.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 class EventsList extends StatelessWidget {
   final String title;
@@ -11,8 +9,13 @@ class EventsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(top: 5),
       child: Card(
         color: Colors.greenAccent,
+        elevation: 5,
+        shape: BeveledRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -21,10 +24,10 @@ class EventsList extends StatelessWidget {
               title: Text(
                 title,
                 style: TextStyle(
-                  fontFamily: 'Acumin',
-                  fontWeight: FontWeight.bold,
-                  color: darkLight,
-                  fontSize: 40,
+                  fontFamily: 'Acumin Pro',
+                  fontWeight: FontWeight.normal,
+                  color: Color(0xFF312C2C),
+                  fontSize: 30,
                 ),
               ),
               subtitle: Text('Description.'),

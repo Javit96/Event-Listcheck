@@ -40,7 +40,7 @@ class ApiProvider {
     final Map result = json.decode(response.body);
     if (response.statusCode == 201) {
       await saveApiKey(result["data"]["api_key"]);
-      await saveUserName(result["data"]["username"]);
+      
     } else {
       throw Exception('Failed to load post');
     }
@@ -93,15 +93,26 @@ class ApiProvider {
     }
   }
 
+  getUserInfo( String apiKey) async {
+    final response = await client.post("http://10.0.2.2:5000/api/info",
+        headers: {"Authorization": apiKey},);
+
+    final Map result = json.decode(response.body);
+
+    if (response.statusCode == 201) {
+      User userInfo;
+      for (Map parsedJson in result["data"]) {
+          userInfo = User.fromJson(parsedJson);
+          }
+      return userInfo;
+    }
+  }
+
   saveApiKey(String apikey) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('API_Token', apikey);
    
   }
 
-  saveUserName(String username) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('Username', username);
-    
-  }
+ 
 }

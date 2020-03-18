@@ -3,6 +3,7 @@ import 'package:eventsapp/models/authentication/authorize.dart';
 import 'package:eventsapp/models/classes/user.dart';
 import 'package:eventsapp/models/widgets/EventsList_widget.dart';
 import 'package:eventsapp/bloc/resources/repository.dart';
+import 'package:eventsapp/models/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:eventsapp/UI/Donforget/First_list.dart';
 //import 'package:eventsapp/models/global.dart';
@@ -46,8 +47,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   
   TaskBloc taskBloc;
+  UserBloc userBloc;
   String apiKey = "";
-  String username = "";
+  User user;
+  
   Repository _repository = Repository();
   
   @override
@@ -116,20 +119,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return apitoken;
   }
 
-  Future getUserName() async
-  {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String _userName = await prefs.getString("username");//key
-
-    return _userName;
-  }
-  
-  userName()async
-  {
-    username = await getUserName();
-    print(username);
-    return username;
-  }
  
   Widget getHomePage(){
     
@@ -176,45 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 
               ),
               
-              drawer: Drawer
-                (
-                  child: ListView
-                  (
-                    padding: EdgeInsets.zero,
-                    children: <Widget>
-                    [
-                      UserAccountsDrawerHeader(
-                        
-                                accountName: Text(""),
-                                accountEmail: Text("ashishrawat2911@gmail.com"),
-                                currentAccountPicture: CircleAvatar(
-                                  backgroundColor:
-                                      Theme.of(context).platform == TargetPlatform.iOS
-                                          ? Colors.blue
-                                          : Colors.white,
-                                  child: Text(
-                                    "A",
-                                    style: TextStyle(fontSize: 40.0),
-                                  ),
-                                ),
-                              ),
-                     
-                      
-                       ListTile
-                      (
-                          title: Text('Log Out'),
-                          leading: Icon(Icons.directions_walk),
-                          onTap: () 
-                              {
-                                logout();
-                              },
-                      ),
-                      ],
-                  ),
-              ),
-              
-             
-              
+              drawer: DrawerMenu(apiKey: apiKey,),
             ),
         ),
      );
@@ -323,8 +274,8 @@ class _MyHomePageState extends State<MyHomePage> {
     print(apiKey);
     await _repository.addUserTask(this.apiKey, taskName, deadline);
   }
- 
 
+ 
   logout() async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -338,6 +289,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState()
   {
     super.initState();
+    
   }
 
 }

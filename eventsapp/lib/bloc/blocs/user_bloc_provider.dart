@@ -7,7 +7,9 @@ class UserBloc{
   final _repository = Repository();
   final _userGetter = PublishSubject<User>();
 
-   Observable<User> get getUser => _userGetter.stream;
+  Observable<User> get getUser => _userGetter.stream;
+
+  
 
   registerUser(String username, String firstname, String lastname, String email, String password) async
   {
@@ -25,6 +27,7 @@ class UserBloc{
     _userGetter.close();
   }
 }
+
 
 class TaskBloc {
   final _repository = Repository();

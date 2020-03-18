@@ -93,7 +93,7 @@ class ApiProvider {
     }
   }
 
-  getUserInfo( String apiKey) async {
+  Future getUserInfo(String apiKey) async {
     final response = await client.post("http://10.0.2.2:5000/api/info",
         headers: {"Authorization": apiKey},);
 

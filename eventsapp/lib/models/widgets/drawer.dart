@@ -1,5 +1,6 @@
 import 'package:eventsapp/bloc/blocs/user_bloc_provider.dart';
 import 'package:eventsapp/bloc/resources/api.dart';
+import 'package:eventsapp/bloc/resources/repository.dart';
 import 'package:eventsapp/models/classes/user.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,36 +10,40 @@ class DrawerMenu extends StatefulWidget {
   final String apiKey;
   
   
+  DrawerMenu({Key key, this.logout, this.apiKey})
+      :super(key: key);
 
-  const DrawerMenu({Key key, this.logout, this.apiKey})
-      : super(key: key);
   @override
-  _DrawerState createState() => _DrawerState();
+  _DrawerMenuState createState() => _DrawerMenuState();
+
+
 }
 
-class _DrawerState extends State<DrawerMenu> {
-  String username = "";
-  User userInfo;
-  
 
-  
+class _DrawerMenuState extends State<DrawerMenu>{  
 
-   @override
-  void dispose()
+  UserBloc userBloc;
+  Repository _repository = Repository();
+  User user;
+
+  void setInfo()async
   {
-    super.dispose();
+    user = await _repository.getUserInfo(widget.apiKey);
   }
   
+  
   @override
-  Widget build(BuildContext context) {
-    username = userInfo.username;
-    return Drawer(
+  Widget build(BuildContext context){
+    setInfo();
+     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountName: Text(username),
-            accountEmail: Text("ashishrawat2911@gmail.com"),
+            accountName: Text(
+              user.username
+            ),
+            accountEmail: Text("${user.username}"),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
                   ? Colors.blue
@@ -59,5 +64,11 @@ class _DrawerState extends State<DrawerMenu> {
         ],
       ),
     );
+
+   
+
+
+
+
   }
 }

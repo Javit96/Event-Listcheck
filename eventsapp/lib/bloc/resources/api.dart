@@ -74,6 +74,26 @@ class ApiProvider {
     }
   }
 
+  Future getUserInfo(String apiKey) async {
+    final response = await client.get("http://10.0.2.2:5000/api/info",
+        headers: {"Authorization": apiKey},);
+
+    final Map result = json.decode(response.body);
+
+    if (response.statusCode == 201) {
+      User userInfo;
+      print(result);
+      userInfo = User.fromJson(result["data"]);
+      print(userInfo.email);
+      return userInfo;
+    }
+    else if(response.statusCode == 400)
+    {
+      print(json.decode(response.body));
+      throw Exception("Failed to load info");
+    }
+  }
+
   Future addUserTask(String apiKey, String taskName, String deadline) async {
     final response = await client.post("http://10.0.2.2:5000/api/tasks",
         headers: {"Authorization": apiKey},
@@ -90,23 +110,6 @@ class ApiProvider {
     } else {
       print(json.decode(response.body));
       throw Exception("Failed to load tasks");
-    }
-  }
-
-  Future getUserInfo(String apiKey) async {
-    print("En el api tengo esta llave");
-    print(apiKey);
-    final response = await client.post("http://10.0.2.2:5000/api/info",
-        headers: {"Authorization": apiKey},);
-
-    final Map result = json.decode(response.body);
-
-    if (response.statusCode == 201) {
-      User userInfo;
-      for (Map parsedJson in result["data"]) {
-          userInfo = User.fromJson(parsedJson);
-          }
-      return userInfo;
     }
   }
 

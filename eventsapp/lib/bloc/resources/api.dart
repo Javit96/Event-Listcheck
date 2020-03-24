@@ -84,7 +84,6 @@ class ApiProvider {
       User userInfo;
       print(result);
       userInfo = User.fromJson(result["data"]);
-      print(userInfo.email);
       return userInfo;
     }
     else if(response.statusCode == 400)

@@ -38,7 +38,6 @@ class _DrawerMenuState extends State<DrawerMenu>{
          if (snapshot.hasData)
          {
            user = snapshot.data;
-           print(user);
          }
          else
          {
@@ -60,16 +59,13 @@ class _DrawerMenuState extends State<DrawerMenu>{
 
   Future setInfo()async
   {
-    print(widget.apiKey);
-    print("object");
     user = await _repository.getUserInfo(widget.apiKey);
     return user;
   }
   
   @override
   Widget buildDraw(){
-     return MaterialApp(
-      home: Drawer(
+     return  Drawer(
   
             child: ListView(
   
@@ -125,7 +121,7 @@ class _DrawerMenuState extends State<DrawerMenu>{
   
           ),
   
-          ),
-    );
+     );
+    
   }
 }

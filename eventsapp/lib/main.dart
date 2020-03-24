@@ -127,6 +127,19 @@ class _MyHomePageState extends State<MyHomePage> {
         (
            child: new Scaffold
             (
+              appBar: AppBar(
+                      backgroundColor: Colors.greenAccent,
+                      elevation: 0,
+                      leading: IconButton(
+                          icon: const Icon(Icons.menu),
+                          onPressed: () 
+                          {
+                             Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => DrawerMenu(apiKey: apiKey, logout: logout,)),
+                             );
+                             },
+                         ),
+                        ),
               body: Stack(
                 children: <Widget>[ 
                   FirstList(apiKey: apiKey,),
@@ -143,6 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                  ),
                
+                
                 
                 Container
                 (

@@ -165,7 +165,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 
               ),
               
-              drawer: DrawerMenu(apiKey: apiKey,),
+              drawer: DrawerMenu(apiKey: apiKey, logout: logout,)
+              
             ),
         ),
      );

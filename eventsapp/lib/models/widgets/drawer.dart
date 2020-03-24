@@ -26,49 +26,106 @@ class _DrawerMenuState extends State<DrawerMenu>{
   Repository _repository = Repository();
   User user;
 
-  void setInfo()async
-  {
-    user = await _repository.getUserInfo(widget.apiKey);
-  }
   
   
   @override
-  Widget build(BuildContext context){
-    setInfo();
-     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName: Text(
-              user.username
-            ),
-            accountEmail: Text("${user.username}"),
-            currentAccountPicture: CircleAvatar(
-              backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
-                  ? Colors.blue
-                  : Colors.white,
-              child: Text(
-                "A",
-                style: TextStyle(fontSize: 40.0),
+  Widget build(BuildContext context)
+  {
+     return FutureBuilder(
+       future: setInfo(),
+       builder: (BuildContext context, AsyncSnapshot snapshot)
+       {
+         if (snapshot.hasData)
+         {
+           user = snapshot.data;
+           print(user);
+         }
+         else
+         {
+           print("No User");
+         }
+        return user != null ? buildDraw() : Text("No user");
+        
+        },
+     );
+  }
+
+  void login()
+  {
+    
+    setState(() {
+      build(context);
+    });
+  }
+
+  Future setInfo()async
+  {
+    print(widget.apiKey);
+    print("object");
+    user = await _repository.getUserInfo(widget.apiKey);
+    return user;
+  }
+  
+  @override
+  Widget buildDraw(){
+     return MaterialApp(
+      home: Drawer(
+  
+            child: ListView(
+  
+              padding: EdgeInsets.zero,
+  
+              children: <Widget>[
+  
+                  UserAccountsDrawerHeader(
+  
+                  accountName: Text(
+  
+                    "${user.username}"
+  
+                  ),
+  
+                  accountEmail: Text("${user.email}"),
+  
+                  currentAccountPicture: CircleAvatar(
+  
+                    backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
+  
+                        ? Colors.blue
+  
+                        : Colors.white,
+  
+                    child: Text(
+  
+                      "A",
+  
+                      style: TextStyle(fontSize: 40.0),
+  
+                    ),
+  
+                  ),
+  
+                ), 
+  
+                ListTile(
+  
+                  title: Text('Log Out'),
+  
+                  leading: Icon(Icons.directions_walk),
+  
+                  onTap: () {
+  
+                    widget.logout();
+  
+                },
+  
               ),
-            ),
+  
+            ],
+  
           ),
-          ListTile(
-            title: Text('Log Out'),
-            leading: Icon(Icons.directions_walk),
-            onTap: () {
-              widget.logout();
-            },
+  
           ),
-        ],
-      ),
     );
-
-   
-
-
-
-
   }
 }

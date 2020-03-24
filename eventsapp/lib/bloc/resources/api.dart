@@ -94,6 +94,8 @@ class ApiProvider {
   }
 
   Future getUserInfo(String apiKey) async {
+    print("En el api tengo esta llave");
+    print(apiKey);
     final response = await client.post("http://10.0.2.2:5000/api/info",
         headers: {"Authorization": apiKey},);
 

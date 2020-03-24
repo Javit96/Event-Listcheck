@@ -3,7 +3,7 @@ from flask import request
 from model import db, User
 
 class UserInfo(Resource):
-    def get(self):
+    def post(self):
         result = ""
         json_data = request.get_json(force = True)
         header = request.headers["Authorization"]

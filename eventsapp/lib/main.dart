@@ -134,12 +134,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           icon: const Icon(Icons.menu),
                           onPressed: () 
                           {
-                             Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => DrawerMenu(apiKey: apiKey, logout: logout,)),
-                             );
-                             },
-                         ),
-                        ),
+                             
+                          },
+                      ),
+                      ),
+              
               body: Stack(
                 children: <Widget>[ 
                   FirstList(apiKey: apiKey,),
@@ -164,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 70,
                   margin: EdgeInsets.only
                   (
-                    top: 550, 
+                    top: 500, 
                     left:MediaQuery.of(context).size.width * 0.7
                   ),
                   child: FloatingActionButton
@@ -179,14 +178,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 
               ),
               
-              drawer: DrawerMenu(apiKey: apiKey, logout: logout,)
+             drawer: DrawerMenu(apiKey: apiKey, logout: logout,),
               
             ),
         ),
      );
     }
 
-  
+ 
 
   void _showAddDialog()
   {

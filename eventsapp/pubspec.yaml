@@ -28,6 +28,7 @@ dependencies:
   shared_preferences: ^0.5.6+1
   rxdart: ^0.22.3
   auto_size_text: ^2.1.0
+  pull_to_refresh: ^1.4.5
 
 dev_dependencies:
   flutter_test:

@@ -18,7 +18,7 @@ class UserInfo(Resource):
 
             if user:
                 result = User.serialize(user)
-                print(result)
+                
             else:
                 print("Wrong api Key")
                 return{"Message": "Wrong api"},400

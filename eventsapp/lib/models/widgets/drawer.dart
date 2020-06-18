@@ -66,7 +66,7 @@ class _DrawerMenuState extends State<DrawerMenu>{
   @override
   Widget buildDraw(){
      return  Drawer(
-  
+       
             child: ListView(
   
               padding: EdgeInsets.zero,
@@ -74,7 +74,7 @@ class _DrawerMenuState extends State<DrawerMenu>{
               children: <Widget>[
   
                   UserAccountsDrawerHeader(
-  
+
                   accountName: Text(
   
                     "${user.username}"
@@ -84,13 +84,7 @@ class _DrawerMenuState extends State<DrawerMenu>{
                   accountEmail: Text("${user.email}"),
   
                   currentAccountPicture: CircleAvatar(
-  
-                    backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
-  
-                        ? Colors.blue
-  
-                        : Colors.white,
-  
+
                     child: Text(
   
                       "A",

@@ -51,3 +51,33 @@ class Tasks(Resource):
             
 
         return {"status": 'success', "data": result},201
+
+    def delete(self):
+        
+        header = request.headers["Authorization"]
+        json_data = request.get_json(force = True)
+
+        if not header:
+            return {"Message": "No api key!"}, 400
+        else:
+            user = User.query.filter_by(api_key = header).first()
+            if user: 
+                task = Task.query.filter_by(user_id = user.id, title = json_data['title']).all()
+                print(task)
+                db.session.delete(task)
+                return {"status": 'success', "message": "Tarea eliminada"},201
+            else:
+                return{"message": 'failed'}
+        
+                
+
+
+                
+                
+                   
+            
+
+        
+
+
+        

@@ -93,6 +93,7 @@ class ApiProvider {
     }
   }
 
+  
   Future addUserTask(String apiKey, String taskName, String deadline) async {
     final response = await client.post("http://10.0.2.2:5000/api/tasks",
         headers: {"Authorization": apiKey},
@@ -109,6 +110,20 @@ class ApiProvider {
     } else {
       print(json.decode(response.body));
       throw Exception("Failed to load tasks");
+    }
+  }
+
+  Future deleteTask(String apiKey, String taskName) async {
+    final response = await client.delete("http://10.0.2.2:5000/api/tasks", 
+      headers: {"Authorization": apiKey},
+      body: jsonEncode({
+      "title": taskName
+     }));
+    if (response.statusCode == 201) {
+      print("Task deleted succesfully");
+    } else {
+      print(json.decode(response.body));
+      throw Exception("Failed to delete");
     }
   }
 

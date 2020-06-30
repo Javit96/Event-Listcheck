@@ -105,7 +105,7 @@ class _FirstListState extends State<FirstList> {
                 ),
               );
             }),
-        onRefresh: async _handleRefresh,
+        onRefresh:  _handleRefresh,
       ),
     );
   }

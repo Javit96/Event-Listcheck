@@ -53,6 +53,11 @@ class TaskBloc {
     _tasks = await _repository.getUserTasks(apiKey);
   }
 
+  deleteTask(String apiKey, int taskId) async 
+  {
+    _tasks = await _repository.deleteTask(apiKey, taskId);
+  }
+
 }
 
 final userBloc = UserBloc();

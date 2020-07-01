@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:eventsapp/bloc/blocs/user_bloc_provider.dart';
 import 'package:eventsapp/models/classes/task.dart';
 import 'package:eventsapp/models/widgets/EventsList_widget.dart';
+import 'package:http/http.dart';
 
 class FirstList extends StatefulWidget {
   final String apiKey;
@@ -61,6 +62,7 @@ class _FirstListState extends State<FirstList> {
     );
   }
 
+  
   Widget _buildListSimple(BuildContext context, List<Task> taskList) {
     return Scrollbar(
       child: RefreshIndicator(
@@ -95,7 +97,23 @@ class _FirstListState extends State<FirstList> {
                                       ),
                                       Text(taskList[index].title)
                                     ],
-                                  )
+                                   ),
+                                   Row(
+                                    children: <Widget>[
+                                      FlatButton(
+                                        onPressed: _showDialogtask,
+                                        
+                                        child: Align(
+                                             alignment: Alignment.centerRight,
+                                             child: Icon(
+                                                Icons.delete,
+                                                color: Colors.amber,
+                                                size: 50,
+                                              )),
+                                      )
+                                      
+                                    ],
+                                   )
                                 ],
                               ))
                         ],
@@ -109,4 +127,60 @@ class _FirstListState extends State<FirstList> {
       ),
     );
   }
+
+  
+  void _showDialogtask()
+  {
+    showDialog(
+      context: context,
+      builder: (BuildContext context)
+      {
+        return Center(
+          child: Card(
+            child: Container(
+              padding: EdgeInsets.all(20),
+              constraints : BoxConstraints.expand(height: 250,),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(13)),
+              ),
+
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>
+              [
+                Text("Are you sure you want delete this task?"),
+                Row
+                (
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>
+                  [
+                    RaisedButton
+                    (
+                      color: Colors.red,
+                      child: Text("Cancel",),
+                      onPressed: ()
+                      {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    RaisedButton
+                    (
+                      color: Colors.green,
+                      child: Text("Yes",),
+                      onPressed: tasksBloc.deleteTask(widget.apiKey, taskList[index].taskId)
+                      
+                    ),
+                  ],
+            
+                ),
+              ]
+              )
+            )
+          )
+        );
+      },
+  );
+ }
 }

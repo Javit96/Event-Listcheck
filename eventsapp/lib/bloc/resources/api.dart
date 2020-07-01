@@ -113,12 +113,9 @@ class ApiProvider {
     }
   }
 
-  Future deleteTask(String apiKey, String taskName) async {
+  Future deleteTask(String apiKey, int taskId) async {
     final response = await client.delete("http://10.0.2.2:5000/api/tasks", 
-      headers: {"Authorization": apiKey},
-      body: jsonEncode({
-      "title": taskName
-     }));
+      headers: {"Authorization": apiKey, "task_id": taskId.toString(),});
     if (response.statusCode == 201) {
       print("Task deleted succesfully");
     } else {

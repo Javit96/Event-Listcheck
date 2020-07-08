@@ -13,11 +13,8 @@ class FirstList extends StatefulWidget {
 
 class _FirstListState extends State<FirstList> {
   List<Task> taskList = [];
-  TaskBloc tasksBloc;
 
-  Future<Null> _handleRefresh() {
-    tasksBloc = TaskBloc(widget.apiKey);
-  }
+  TaskBloc tasksBloc;
 
   @override
   void initState() {
@@ -53,16 +50,15 @@ class _FirstListState extends State<FirstList> {
         ));
   }
 
-  Widget _buildListTile(BuildContext context, Task item) {
+  /* Widget _buildListTile(BuildContext context, Task item) {
     return ListTile(
       key: Key(item.taskId.toString()),
       title: EventsList(
         title: item.title,
       ),
     );
-  }
+  } */
 
-  
   Widget _buildListSimple(BuildContext context, List<Task> taskList) {
     return Scrollbar(
       child: RefreshIndicator(
@@ -71,6 +67,7 @@ class _FirstListState extends State<FirstList> {
             itemCount: taskList.length,
             itemBuilder: (context, index) {
               return Card(
+                elevation: 50,
                 child: Padding(
                   padding: EdgeInsets.all(7),
                   child: Stack(children: <Widget>[
@@ -85,8 +82,7 @@ class _FirstListState extends State<FirstList> {
                                   Row(
                                     children: <Widget>[
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.all(10.0),
+                                        padding: const EdgeInsets.all(10.0),
                                         child: Align(
                                             alignment: Alignment.centerLeft,
                                             child: Icon(
@@ -97,23 +93,25 @@ class _FirstListState extends State<FirstList> {
                                       ),
                                       Text(taskList[index].title)
                                     ],
-                                   ),
-                                   Row(
+                                  ),
+                                  Row(
                                     children: <Widget>[
                                       FlatButton(
-                                        onPressed: _showDialogtask,
-                                        
+                                        onPressed: () {
+                                          deleteTask(taskList[index].title,
+                                              taskList[index].taskId);
+                                          taskList.removeAt(index);
+                                        },
                                         child: Align(
-                                             alignment: Alignment.centerRight,
-                                             child: Icon(
-                                                Icons.delete,
-                                                color: Colors.amber,
-                                                size: 50,
-                                              )),
+                                            alignment: Alignment.centerRight,
+                                            child: Icon(
+                                              Icons.delete,
+                                              color: Colors.amber,
+                                              size: 50,
+                                            )),
                                       )
-                                      
                                     ],
-                                   )
+                                  )
                                 ],
                               ))
                         ],
@@ -123,64 +121,39 @@ class _FirstListState extends State<FirstList> {
                 ),
               );
             }),
-        onRefresh:  _handleRefresh,
+        onRefresh: _handleRefresh,
       ),
     );
   }
 
-  
-  void _showDialogtask()
-  {
-    showDialog(
-      context: context,
-      builder: (BuildContext context)
-      {
-        return Center(
-          child: Card(
-            child: Container(
-              padding: EdgeInsets.all(20),
-              constraints : BoxConstraints.expand(height: 250,),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(13)),
-              ),
+  Future<Null> _handleRefresh() async {
+    setState(() {
+      tasksBloc = TaskBloc(widget.apiKey);
+    });
+  }
 
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>
-              [
-                Text("Are you sure you want delete this task?"),
-                Row
-                (
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>
-                  [
-                    RaisedButton
-                    (
-                      color: Colors.red,
-                      child: Text("Cancel",),
-                      onPressed: ()
-                      {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    RaisedButton
-                    (
-                      color: Colors.green,
-                      child: Text("Yes",),
-                      onPressed: tasksBloc.deleteTask(widget.apiKey, taskList[index].taskId)
-                      
-                    ),
-                  ],
-            
-                ),
-              ]
-              )
-            )
-          )
+  Future<void> deleteTask(title, taskId) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Are you sure you want to delete this task?"),
+          content: Text(title),
+          actions: <Widget>[
+            new FlatButton(
+                child: new Text("Cancel"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }),
+            new FlatButton(
+                child: new Text("Accept"),
+                onPressed: () {
+                  tasksBloc.deleteTask(widget.apiKey, taskId);
+                  Navigator.of(context).pop();
+                }),
+          ],
         );
       },
-  );
- }
+    );
+  }
 }
